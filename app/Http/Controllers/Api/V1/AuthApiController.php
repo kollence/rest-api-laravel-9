@@ -37,11 +37,18 @@ class AuthApiController extends Controller
             }
 
             if($user->role_id == 1){
-                $token = $user->createToken('admin-token')->plainTextToken;
+                // if($request->query('roles')){
+                // }
+                $token = $user->createToken('admin-token',['create','update','delete'])->plainTextToken;
+                $user->token = $token;
+                // $user = $user->with('roles');
+                // return new UserResource($user);
             }else{
-                $token = $user->createToken('user-token')->plainTextToken;
+                $token = $user->createToken('user-token',['none'])->plainTextToken;
+                $user->token = $token;
+                // return new UserResource($user);
             }
-            $user->token = $token;
+
             return new UserResource($user);
         }catch(\Exception $e){
             return response()->json(['err' => $e->getMessage()]);

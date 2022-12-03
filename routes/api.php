@@ -24,6 +24,10 @@ Route::post('/login', [AuthApiController::class, 'login']);
 
 //api/VERSION
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1','middleware'=>'auth:sanctum'], function(){
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+        
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('invoices', InvoiceController::class);
     Route::post('invoices/bulk', [InvoiceController::class, 'bulkStore']);

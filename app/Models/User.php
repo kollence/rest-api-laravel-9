@@ -43,9 +43,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function role()
+    public function roles()
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo('App\Models\Role', 'id');
     }
 
     public function isAdmin()
@@ -61,7 +61,7 @@ class User extends Authenticatable
     public function hasRole(array $roles)
     {
         foreach ($roles as $role) {
-            if ($this->role->name == $role) return true;
+            if ($this->role == $role) return true;
         }
         return false;
     }
