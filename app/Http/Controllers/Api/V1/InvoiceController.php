@@ -31,7 +31,6 @@ class InvoiceController extends Controller
         return new InvoiceCollection($invoices->appends($request->query()));
 
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -40,7 +39,8 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        //
+        
+        return new InvoiceResource(Invoice::create($request->all()));
     }
     public function bulkStore(BulkStoreInvoiceRequest $request)
     {  //make collection from request array so we can use map() which is easiest way to make new array with columns that we need
@@ -49,7 +49,7 @@ class InvoiceController extends Controller
         });
                         //return collection to array
         Invoice::insert($bulk->toArray());
-        return ['radi sve'];
+        return ['success' => 'bulk stored'];
     }
 
     /**
@@ -72,7 +72,8 @@ class InvoiceController extends Controller
      */
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
-        //
+        $invoice->update($request->all());
+        return new InvoiceResource($invoice);
     }
 
     /**
@@ -83,6 +84,8 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        //
+        if (request()->user()->tokenCan('delete')) {
+            return Invoice::destroy($invoice->id);
+        }
     }
 }

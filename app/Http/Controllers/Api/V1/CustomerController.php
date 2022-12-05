@@ -26,7 +26,6 @@ class CustomerController extends Controller
         }
 
         return new CustomerCollection($customers->paginate(10)->appends($request->query()));
-        
     }
 
 
@@ -52,6 +51,8 @@ class CustomerController extends Controller
 
     public function destroy(Customer $customer)
     {
-        //
+        if ($this->user()->tokenCan('delete')) {
+            return Customer::destroy($customer->id);
+        }
     }
 }
