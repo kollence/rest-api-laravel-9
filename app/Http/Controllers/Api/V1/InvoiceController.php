@@ -39,7 +39,6 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        
         return new InvoiceResource(Invoice::create($request->all()));
     }
     public function bulkStore(BulkStoreInvoiceRequest $request)

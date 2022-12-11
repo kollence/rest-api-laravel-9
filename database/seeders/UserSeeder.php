@@ -18,13 +18,14 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+        $user = User::create([
             'email' => 'admin@admin.com',
             'email_verified_at' => now(),
             'password' => Hash::make('Admin1!@'),
             'remember_token' => Str::random(10),
             'name' => 'Admin',
-            'role_id' => 1,
         ]);
+
+        $user->roles()->attach([1]);
     }
 }
